@@ -10,7 +10,7 @@ release:
 
 tag: --tag --msg
 	@git tag -a $(TAG) -m "$(MSG)"
-	@git push origin (TAG)
+	@git push origin $(TAG)
 
 lint:
 	@goreleaser check
