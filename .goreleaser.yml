@@ -1,0 +1,86 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - main: ./...
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - arm64
+      - amd64
+    ignore:
+      - goos: darwin
+        goarch: amd64
+      - goos: windows
+        goarch: arm64
+      - goos: linux
+        goarch: arm64
+
+archives:
+  - formats: [tar.gz]
+    name_template: '{{ .ProjectName }}-{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+nfpms:
+  - description: CLI validator utilizing go-playground/validator
+    homepage: https://github.com/mrccnt/gval/
+    id: gval-nfpms
+    package_name: gval
+    file_name_template: "{{ .ProjectName }}-{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    maintainer: "Marco Conti <github@marcoconti.org>"
+    license: Apache-2.0
+    section: golang
+    formats:
+      - deb
+      - rpm
+    umask: 0o022
+    rpm:
+      group: Development/Tools
+    overrides:
+      deb:
+        contents:
+          - src: LICENSE
+            dst: /usr/share/doc/gval/LICENSE
+          - src: README.md
+            dst: /usr/share/doc/gval/README.md
+      rpm:
+        contents:
+          - src: LICENSE
+            dst: /usr/share/doc/gval/LICENSE
+            type: license
+          - src: README.md
+            dst: /usr/share/doc/gval/README.md
+            type: readme
+
+sboms:
+  - id: gval-sboms
+    documents:
+      - "${artifact}.spdx.json"
+    cmd: syft
+    args: ["$artifact", "--output", "cyclonedx-json=$document"]
+    artifacts: archive
+
+release:
+  skip_upload: true
+  github:
+    owner: mrccnt
+    name: gval
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"

@@ -1,0 +1,38 @@
+version: "2"
+
+# https://github.com/golangci/golangci-lint/blob/master/.golangci.reference.yml
+# https://golangci-lint.run/usage/linters/
+
+linters:
+  default: standard
+  enable:
+    - asasalint
+    - errorlint
+    - gocognit
+    - gocritic
+    - gocyclo
+    - gosec
+    - mnd
+    - revive
+    - staticcheck
+    - usestdlibvars
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - dist$
+
+issues:
+  fix: true
+
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - dist$
