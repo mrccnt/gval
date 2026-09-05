@@ -1,0 +1,4 @@
+FROM alpine:3.24
+ARG TARGETPLATFORM
+COPY $TARGETPLATFORM/gval /usr/bin/
+CMD ["gval"]

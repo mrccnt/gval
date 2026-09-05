@@ -6,7 +6,8 @@ before:
     - go generate ./...
 
 builds:
-  - main: ./...
+  - id: gval-build
+    main: ./...
     ldflags:
       - -s -w -X main.version={{ .Version }}
     env:
@@ -27,6 +28,7 @@ builds:
         goarch: arm64
 
 archives:
+  - id: gval-archives
   - formats: [tar.gz]
     name_template: '{{ .ProjectName }}-{{ .Version }}_{{ .Os }}_{{ .Arch }}'
     format_overrides:
@@ -64,13 +66,43 @@ nfpms:
             dst: /usr/share/doc/gval/README.md
             type: readme
 
+dockers_v2:
+  - id: gval-alpine
+    images:
+      - 'marcocontiorg/gval'
+    dockerfile: Dockerfile
+    platforms:
+      - linux/amd64
+    tags:
+      - "{{ .Version }}"
+      - "{{ if .IsNightly }}nightly{{ end }}"
+      - "{{ if not .IsNightly }}latest{{ end }}"
+    labels:
+      'org.opencontainers.image.title': '{{.ProjectName}}'
+      'org.opencontainers.image.description': 'CLI validator utilizing go-playground/validator'
+      'org.opencontainers.image.source': '{{.GitURL}}'
+      'org.opencontainers.image.url': '{{.GitURL}}'
+      'org.opencontainers.image.documentation': 'https://github.com/mrccnt/gval'
+      'org.opencontainers.image.created': '{{.Date}}'
+      'org.opencontainers.image.revision': '{{.FullCommit}}'
+      'org.opencontainers.image.version': '{{.Version}}'
+      'org.opencontainers.image.base.name': '{{.BaseImage}}'
+      'org.opencontainers.image.base.digest': '{{.BaseImageDigest}}'
+      'index,manifest:org.opencontainers.image.licenses': 'Apache-2.0'
+
 sboms:
-  - id: gval-sboms
+  - id: gval-sboms-archive
     documents:
       - "${artifact}.spdx.json"
     cmd: syft
     args: ["$artifact", "--output", "cyclonedx-json=$document"]
     artifacts: archive
+  - id: gval-sboms-package
+    documents:
+      - "${artifact}.spdx.json"
+    cmd: syft
+    args: ["$artifact", "--output", "cyclonedx-json=$document"]
+    artifacts: package
 
 release:
   skip_upload: true
