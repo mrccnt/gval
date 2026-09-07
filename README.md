@@ -1,11 +1,14 @@
+[![Release](https://github.com/mrccnt/gval/actions/workflows/release.yml/badge.svg)](https://github.com/mrccnt/gval/actions/workflows/release.yml)
+<hr/>
+
 # gval
 
 CLI validator utilizing go-playground/validator.
 
 ## Description
 
-`gval` utilizes [github.com/go-playground/validator/v10](https://github.com/go-playground/validator/v10) to allow simple
-and fast validation of variables in bash/shell.
+`gval` utilizes [go-playground/validator](https://github.com/go-playground/validator) to allow simple, fast and relyable
+validation of variables in bash/shell.
 
 ```shell
 # Check string length and if it is an actual file
