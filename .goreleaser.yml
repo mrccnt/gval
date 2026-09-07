@@ -34,6 +34,9 @@ archives:
     format_overrides:
       - goos: windows
         formats: [zip]
+    files:
+      - LICENSE
+      - README.md
 
 nfpms:
   - description: CLI validator utilizing go-playground/validator
@@ -89,6 +92,7 @@ dockers_v2:
       'org.opencontainers.image.base.name': '{{.BaseImage}}'
       'org.opencontainers.image.base.digest': '{{.BaseImageDigest}}'
       'index,manifest:org.opencontainers.image.licenses': 'Apache-2.0'
+    disable: "{{ .IsSnapshot }}"
 
 sboms:
   - id: gval-sboms-archive
@@ -105,14 +109,16 @@ sboms:
     artifacts: package
 
 release:
-  skip_upload: true
   github:
     owner: mrccnt
     name: gval
+  skip_upload: "{{ .IsSnapshot }}"
 
 changelog:
   sort: asc
   filters:
     exclude:
-      - "^docs:"
-      - "^test:"
+      - '(?i)^docs?:'
+      - '(?i)^test?:'
+      - Merge pull request
+      - Merge branch
