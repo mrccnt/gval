@@ -1,5 +1,4 @@
 [![Release](https://github.com/mrccnt/gval/actions/workflows/release.yml/badge.svg)](https://github.com/mrccnt/gval/actions/workflows/release.yml)
-<hr/>
 
 # gval
 

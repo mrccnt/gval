@@ -108,6 +108,10 @@ sboms:
     args: ["$artifact", "--output", "cyclonedx-json=$document"]
     artifacts: package
 
+checksum:
+  name_template: "checksums.sha256"
+  algorithm: sha256
+
 release:
   github:
     owner: mrccnt
