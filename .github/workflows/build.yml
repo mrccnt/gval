@@ -1,4 +1,4 @@
-name: Release
+name: build
 run-name: A release-build has been triggered! 🚀
 
 on:

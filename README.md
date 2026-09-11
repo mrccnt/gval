@@ -1,4 +1,6 @@
-[![Release](https://github.com/mrccnt/gval/actions/workflows/release.yml/badge.svg)](https://github.com/mrccnt/gval/actions/workflows/release.yml)
+[![Release](https://github.com/mrccnt/gval/actions/workflows/build.yml/badge.svg)](https://github.com/mrccnt/gval/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/release/mrccnt/gval.svg)](https://github.com/mrccnt/gval/releases/latest)
+[![License](https://img.shields.io/github/license/mrccnt/gval)](/LICENSE)
 
 # gval
 
